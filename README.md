@@ -1,15 +1,8 @@
 # Docker-Rails
 
-[![Build Status](https://travis-ci.org/ledermann/docker-rails.svg?branch=master)](https://travis-ci.org/ledermann/docker-rails)
-[![Code Climate](https://codeclimate.com/github/ledermann/docker-rails/badges/gpa.svg)](https://codeclimate.com/github/ledermann/docker-rails)
-[![Issue Count](https://codeclimate.com/github/ledermann/docker-rails/badges/issue_count.svg)](https://codeclimate.com/github/ledermann/docker-rails)
-[![Depfu](https://badges.depfu.com/badges/2f883bd05b4dca8448484ff9289ea15f/overview.svg)](https://depfu.com/github/ledermann/docker-rails)
-[![Greenkeeper badge](https://badges.greenkeeper.io/ledermann/docker-rails.svg)](https://greenkeeper.io/)
-[![](https://images.microbadger.com/badges/image/ledermann/docker-rails.svg)](https://microbadger.com/images/ledermann/docker-rails)
-
 Simple Rails 5.2 application to demonstrate using Docker for production deployment. The application is a very simple kind of CMS (content management system) allowing to manage posts. Beside the boring [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) functionality it has some non-default features.
 
-This project aims to build a lean Docker image for use in production. Therefore it's based on the official Alpine Ruby image, uses multi-stage building and some [optimizations that I described in my blog](https://www.georg-ledermann.de/blog/2018/04/19/dockerize-rails-the-lean-way/). This results in an image size of ~120MB (including the large wkhtmltopdf binary).
+This project aims to build a lean Docker image for use in production. Therefore it's based on the official Alpine Ruby image, uses multi-stage building. This results in an image size of ~120MB (including the large wkhtmltopdf binary).
 
 
 ## Features
@@ -56,8 +49,8 @@ For running tests using RSpec, there is an additional container:
 To start up the application in your local Docker environment:
 
 ```bash
-git clone https://github.com/ledermann/docker-rails.git
-cd docker-rails
+git clone https://github.com/mrtnnk/martin-rails-docker.git
+cd martin-rails-docker
 docker-compose build
 docker-compose run app yarn install
 docker-compose up
@@ -73,21 +66,8 @@ Sign in to the admin account:
 
 Enjoy!
 
-
-## Tests / CI
-
-On every push, the test suite (including [RuboCop](https://github.com/bbatsov/rubocop) checks) is run in public on [Travis CI](https://travis-ci.org/ledermann/docker-rails/builds) and in private on [Gitlab CI](https://about.gitlab.com/gitlab-ci/).
-
-On every successful Travis build, a new Docker image is pushed to [Docker Hub](https://hub.docker.com/r/ledermann/docker-rails/).
-
-
 ## Production deployment
 
 The Docker image build for production is different from development or test. It includes precompiled assets only (no node_modules and no sources). The [spec folder](/spec) is removed and the Alpine packages for Node and Yarn are not installed.
 
 The stack is ready to host with [nginx proxy](https://github.com/jwilder/nginx-proxy) and [letsencrypt-nginx-proxy-companion](https://github.com/JrCs/docker-letsencrypt-nginx-proxy-companion). See [docker-compose.production.yml](/docker-compose.production.yml) for example setup.
-
-
-## Demo
-
-A demo installation is set up on [https://docker-rails.georg-ledermann.de](https://docker-rails.georg-ledermann.de).
